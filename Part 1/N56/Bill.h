@@ -2,7 +2,7 @@
 #ifndef BILL_H
 #define BILL_H
 
-#include "Time.h" // Предполагается, что класс Time уже определен в файле Time.h
+#include "Time.h"
 #include <iostream>
 #include <string>
 

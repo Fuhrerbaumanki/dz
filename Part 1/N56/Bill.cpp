@@ -1,18 +1,6 @@
+#include "Time.h"
 #include <iostream>
 #include <string>
-
-// Объявление класса Time
-class Time {
-private:
-  int hour;
-  int minute;
-  int second;
-
-public:
-  // Конструкторы и методы Time...
-
-  // Добавьте необходимые методы и операторы
-};
 
 class Bill {
 private:
@@ -65,15 +53,15 @@ Bill::Bill(const std::string &last_name, const std::string &phone_number,
 
 // Реализация метода для вычисления времени разговора в минутах
 int Bill::calculateCallDuration() const {
-  int start_minutes = startTime.total_minutes();
-  int end_minutes = endTime.total_minutes();
+  int start_minutes = startTime.to_minutes();
+  int end_minutes = endTime.to_minutes();
 
   // Вычисляем разницу между временами начала и окончания разговора в минутах
   int duration = end_minutes - start_minutes;
 
   // Если разговор начался, но не завершился в течение минуты, учитываем
   // дополнительную минуту
-  if (endTime.getSecond() > startTime.getSecond()) {
+  if (endTime.to_minutes() > startTime.to_minutes()) {
     duration++;
   }
 

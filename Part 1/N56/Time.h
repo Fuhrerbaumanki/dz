@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TIME_H
 #define TIME_H
 
@@ -12,11 +13,11 @@ private:
   int second;
 
 public:
-  // Constructors
+  // Конструкторы
   Time(int h = 0, int m = 0, int s = 0);
   Time(const std::string &time_str);
 
-  // Methods
+  // Методы
   int total_seconds() const;
   int difference(const Time &other) const;
   Time operator+(int seconds) const;
@@ -28,7 +29,7 @@ public:
   bool operator>=(const Time &other) const;
   int to_minutes() const;
 
-  // Friend function to output Time object
+  // Метод вывода
   friend std::ostream &operator<<(std::ostream &os, const Time &time);
 };
 
