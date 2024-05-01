@@ -83,3 +83,15 @@ bool Money::operator>(const Money &m) const {
 bool Money::operator==(const Money &m) const {
   return (rubles == m.rubles && kopecks == m.kopecks);
 }
+
+long Money::getRubles() const { return rubles; }
+
+unsigned char Money::getKopecks() const { return kopecks; }
+
+Money Money::operator*(double factor) const {
+  long totalKopecks = rubles * 100 + kopecks;
+  totalKopecks = static_cast<long>(totalKopecks * factor);
+  long newRubles = totalKopecks / 100;
+  unsigned char newKopecks = totalKopecks % 100;
+  return Money(newRubles, newKopecks);
+}

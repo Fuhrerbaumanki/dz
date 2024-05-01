@@ -24,6 +24,11 @@ public:
   operator>(const Money &m) const; // Перегрузка оператора сравнения 'больше'
   bool
   operator==(const Money &m) const; // Перегрузка оператора сравнения 'равно'
+  Money operator*(double factor) const;
+
+  long getRubles() const;
+
+  unsigned char getKopecks() const;
 };
 
 #endif // MONEY_H

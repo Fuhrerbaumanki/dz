@@ -1,20 +1,10 @@
+#pragma once
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
+#include "Money.h"
 #include <iostream>
 #include <string>
-
-class Money {
-private:
-  int rubles; // Рубли
-  int kopeks; // Копейки
-
-public:
-  Money(int rubles = 0, int kopeks = 0);
-
-  friend std::ostream &operator<<(std::ostream &os, const Money &money);
-  std::string amountInWords() const;
-};
 
 class Account {
 private:
@@ -22,6 +12,7 @@ private:
   std::string accountNumber; // Номер счёта
   float interestRate;        // Процент начисления
   Money balance;             // Сумма на счете
+  std::string amountInWords() const;
 
 public:
   Account(const std::string &ownerLastName, const std::string &accountNumber,
@@ -34,7 +25,6 @@ public:
   Money toDollars(float exchangeRate) const;
   Money toEuro(float exchangeRate) const;
   Money getBalance() const;
-  std::string balanceInWords() const;
 };
 
 #endif // ACCOUNT_H

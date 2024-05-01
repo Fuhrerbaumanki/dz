@@ -1,41 +1,31 @@
+#pragma once
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
-#include "Money.h" // Подключаем заголовочный файл с классом Money
+#include "Money.h"
 #include <string>
 
 class Account {
 private:
-  std::string ownerName;
+  std::string ownerLastName;
   std::string accountNumber;
-  double interestRate;
-  Money balance;
+  double interestRate; // Процент начисления
+  Money balance;       // Сумма на счете
 
 public:
   // Конструктор с параметрами
-  Account(const std::string &name, const std::string &number, double rate,
-          const Money &initialBalance);
+  Account(const std::string &lastName, const std::string &accNumber,
+          double interest, const Money &initialBalance);
 
-  // Метод для изменения владельца счета
-  void changeOwner(const std::string &newName);
+  // Методы
+  void changeOwner(const std::string &newOwner); // Смена владельца
+  void withdraw(const Money &amount); // Снять сумму со счёта
+  void deposit(const Money &amount); // Положить деньги на счёт
+  void addInterest();                // Начислить проценты
 
-  // Метод для снятия суммы со счета
-  void withdraw(const Money &amount);
-
-  // Метод для зачисления суммы на счет
-  void deposit(const Money &amount);
-
-  // Метод для начисления процентов
-  void addInterest();
-
-  // Метод для перевода суммы в доллары
-  double Money convertToDollars() const;
-
-  // Метод для перевода суммы в евро
-  double convertToEuros(double exchangeRate) const;
-
-  // Метод для получения суммы прописью
-  void spellOut() const;
+  // Перевести сумму в доллары/евро
+  Money convertToUSD(double usdRate) const;
+  Money convertToEUR(double eurRate) const;
 };
 
 #endif // ACCOUNT_H

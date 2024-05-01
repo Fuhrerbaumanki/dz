@@ -1,71 +1,51 @@
-#include "Money.h" // Подключаем заголовочный файл с классом Money
+#include "Account.h"
 #include <iostream>
-#include <string>
 
-class Account {
-private:
-  std::string ownerName;
-  std::string accountNumber;
-  double interestRate;
-  Money balance; // Используем класс Money для хранения суммы на счете
+// Конструктор с параметрами
+Account::Account(const std::string &lastName, const std::string &accNumber,
+                 double interest, const Money &initialBalance)
+    : ownerLastName(lastName), accountNumber(accNumber), interestRate(interest),
+      balance(initialBalance) {}
 
-public:
-  // Конструктор с параметрами
-  Account(const std::string &name, const std::string &number, double rate,
-          const Money &initialBalance)
-      : ownerName(name), accountNumber(number), interestRate(rate),
-        balance(initialBalance) {}
+// Смена владельца
+void Account::changeOwner(const std::string &newOwner) {
+  ownerLastName = newOwner;
+}
 
-  // Метод для изменения владельца счета
-  void changeOwner(const std::string &newName) { ownerName = newName; }
-
-  // Метод для снятия суммы со счета
-  void withdraw(const Money &amount) {
-    // Проверяем, достаточно ли средств на счете
-    if (balance >= amount) {
-      balance = balance - amount;
-      std::cout << "Сумма успешно снята со счета." << std::endl;
-    } else {
-      std::cout << "Ошибка: Недостаточно средств на счете." << std::endl;
-    }
+// Снять сумму со счёта
+void Account::withdraw(const Money &amount) {
+  if (balance < amount) {
+    std::cout << "Insufficient funds\n";
+  } else {
+    balance = balance - amount;
   }
+}
 
-  // Метод для зачисления суммы на счет
-  void deposit(const Money &amount) {
-    // Зачисляем средства на счет
-    balance = balance + amount;
-    std::cout << "Сумма успешно зачислена на счет." << std::endl;
-  }
+// Положить деньги на счёт
+void Account::deposit(const Money &amount) { balance = balance + amount; }
 
-  // Метод для начисления процентов
-  void addInterest() {
-    // Начисляем проценты на текущий баланс
-    Money interest = balance * (interestRate / 100.0);
-    balance = balance + interest;
-    std::cout << "Проценты успешно начислены." << std::endl;
-  }
+// Начислить проценты
+void Account::addInterest() {
+  Money interestAmount = balance * (interestRate / 100);
+  balance = balance + interestAmount;
+}
 
-  // Метод для перевода суммы в доллары
-  double Money::convertToDollars() const {
-    // Задаем курс обмена (1 доллар = 92 рубля)
-    const double exchangeRate = 92.0;
+// Перевести сумму в доллары
+Money Account::convertToUSD(double usdRate) const {
+  double amountInUSD =
+      (balance.getRubles() + balance.getKopecks() / 100.0) / usdRate;
+  long rublesInUSD = static_cast<long>(amountInUSD);
+  unsigned char kopecksInUSD =
+      static_cast<unsigned char>((amountInUSD - rublesInUSD) * 100);
+  return Money(rublesInUSD, kopecksInUSD);
+}
 
-    // Вычисляем сумму в долларах
-    double totalDollars = rubles + kopecks / 100.0;
-    totalDollars /= exchangeRate;
-
-    return totalDollars;
-  }
-
-  // Метод для перевода суммы в евро
-  double convertToEuros(double exchangeRate) const {
-    // Переводим текущий баланс в евро
-    return balance.convertToEuros(exchangeRate);
-  }
-
-  // Метод для получения суммы прописью
-  void spellOut() const {
-    // Получаем сумму прописью из баланса
-    balance.spellOut();
-  }
-};
+// Перевести сумму в евро
+Money Account::convertToEUR(double eurRate) const {
+  double amountInEUR =
+      (balance.getRubles() + balance.getKopecks() / 100.0) / eurRate;
+  long rublesInEUR = static_cast<long>(amountInEUR);
+  unsigned char kopecksInEUR =
+      static_cast<unsigned char>((amountInEUR - rublesInEUR) * 100);
+  return Money(rublesInEUR, kopecksInEUR);
+}

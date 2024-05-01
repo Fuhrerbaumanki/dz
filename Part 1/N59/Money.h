@@ -2,24 +2,28 @@
 #ifndef MONEY_H
 #define MONEY_H
 
+#include "LongLong.h"
 #include <iostream>
-#include <map>
 
 class Money {
 private:
-  std::map<int, int> denominations; // Карта для хранения номиналов и их кол-ва
-  int kopeks; // Копейки
-  int rubles; // Рубли
+  LongLong amount;
 
 public:
-  // Конструктор
-  Money(int rubles = 0, int kopeks = 0);
+  Money(long rubles, unsigned long kopecks);
+  Money(const LongLong &amount);
 
-  // Перегрузка операторов
+  // Методы доступа
+  long getRubles() const;
+  unsigned long getKopecks() const;
+
+  // Арифметические операции
   Money operator+(const Money &other) const;
   Money operator-(const Money &other) const;
-  Money operator*(float multiplier) const;
-  Money operator/(float divisor) const;
+  Money operator/(const Money &other) const;
+  Money operator/(double divisor) const;
+
+  // Операции сравнения
   bool operator==(const Money &other) const;
   bool operator!=(const Money &other) const;
   bool operator<(const Money &other) const;
@@ -27,11 +31,7 @@ public:
   bool operator>(const Money &other) const;
   bool operator>=(const Money &other) const;
 
-  long getRubles() const;
-  unsigned char getKopecks() const;
-  Money operator/(double divisor) const;
-
-  // Вывод денежной суммы
+  // Перегрузка оператора вывода для удобства
   friend std::ostream &operator<<(std::ostream &os, const Money &money);
 };
 

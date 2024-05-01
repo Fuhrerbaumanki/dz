@@ -95,3 +95,16 @@ std::ostream &operator<<(std::ostream &os, const Money &money) {
   os << money.kopeks;
   return os;
 }
+
+long Money::getRubles() const { return rubles; }
+
+unsigned char Money::getKopecks() const { return kopeks; }
+
+Money Money::operator/(double divisor) const {
+  double amount = rubles + getKopecks() / 100.0;
+  amount /= divisor;
+  long newRubles = static_cast<long>(amount);
+  unsigned char newKopecks =
+      static_cast<unsigned char>((amount - newRubles) * 100);
+  return Money(newRubles, newKopecks);
+}
